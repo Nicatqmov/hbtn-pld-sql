@@ -1,0 +1,4 @@
+INSERT INTO Accounts (AccountHolder, Balance) VALUES
+('Nicat', 1000.00),
+('Kenan', 500.00),
+('Senan', 200.00);

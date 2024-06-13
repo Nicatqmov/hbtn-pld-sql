@@ -1,0 +1,13 @@
+SELECT
+    a.ArticleID,
+    a.Title,
+    a.PublishedDate,
+    COUNT(c.CommentID) AS CommentCount
+FROM
+    Articles a
+    LEFT JOIN Comments c ON a.ArticleID = c.ArticleID
+GROUP BY
+    a.ArticleID
+ORDER BY
+    a.PublishedDate DESC
+LIMIT 10;

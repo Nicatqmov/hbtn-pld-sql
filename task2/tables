@@ -1,0 +1,18 @@
+CREATE TABLE Students (
+    StudentID INT AUTO_INCREMENT PRIMARY KEY,
+    StudentName VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Courses (
+    CourseID INT AUTO_INCREMENT PRIMARY KEY,
+    CourseName VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Enrollments (
+    EnrollmentID INT AUTO_INCREMENT PRIMARY KEY,
+    StudentID INT,
+    CourseID INT,
+    Grade DECIMAL(5, 2),
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);

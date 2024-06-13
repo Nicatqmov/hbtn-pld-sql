@@ -1,0 +1,28 @@
+CREATE TABLE Customers (
+    CustomerID INT AUTO_INCREMENT PRIMARY KEY,
+    CustomerName VARCHAR(255) NOT NULL,
+    Country VARCHAR(255)
+);
+
+CREATE TABLE Orders (
+    OrderID INT AUTO_INCREMENT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+CREATE TABLE Products (
+    ProductID INT AUTO_INCREMENT PRIMARY KEY,
+    ProductName VARCHAR(255) NOT NULL,
+    Category VARCHAR(255),
+    Price DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE OrderDetails (
+    OrderDetailID INT AUTO_INCREMENT PRIMARY KEY,
+    OrderID INT,
+    ProductID INT,
+    Quantity INT NOT NULL,
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);

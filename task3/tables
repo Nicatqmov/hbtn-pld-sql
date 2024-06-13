@@ -1,0 +1,14 @@
+CREATE TABLE Articles (
+    ArticleID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    AuthorID INT NOT NULL,
+    PublishedDate DATETIME
+);
+
+CREATE TABLE Comments (
+    CommentID INT AUTO_INCREMENT PRIMARY KEY,
+    ArticleID INT,
+    CommentText TEXT,
+    CommentDate DATETIME,
+    FOREIGN KEY (ArticleID) REFERENCES Articles(ArticleID)
+);

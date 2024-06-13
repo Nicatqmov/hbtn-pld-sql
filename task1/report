@@ -1,0 +1,19 @@
+SELECT
+    Customers.CustomerName,
+    COUNT(DISTINCT Orders.OrderID) AS TotalOrders,
+    SUM(OrderDetails.Quantity * Products.Price) AS TotalAmountSpent,
+    (SELECT Products.Category
+     FROM OrderDetails
+     JOIN Products ON OrderDetails.ProductID = Products.ProductID
+     JOIN Orders ON OrderDetails.OrderID = Orders.OrderID
+     WHERE Orders.CustomerID = Customers.CustomerID
+     GROUP BY Products.Category
+     ORDER BY SUM(OrderDetails.Quantity) DESC
+     LIMIT 1) AS FavoriteProductCategory
+FROM
+    Customers
+    JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+    JOIN OrderDetails ON Orders.OrderID = OrderDetails.OrderID
+    JOIN Products ON OrderDetails.ProductID = Products.ProductID
+GROUP BY
+    Customers.CustomerID;

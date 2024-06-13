@@ -1,0 +1,15 @@
+CREATE TABLE Accounts (
+    AccountID INT AUTO_INCREMENT PRIMARY KEY,
+    AccountHolder VARCHAR(255) NOT NULL,
+    Balance DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE Transactions (
+    TransactionID INT AUTO_INCREMENT PRIMARY KEY,
+    FromAccountID INT,
+    ToAccountID INT,
+    Amount DECIMAL(10, 2) NOT NULL,
+    TransactionDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (FromAccountID) REFERENCES Accounts(AccountID),
+    FOREIGN KEY (ToAccountID) REFERENCES Accounts(AccountID)
+);

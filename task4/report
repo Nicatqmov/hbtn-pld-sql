@@ -1,0 +1,35 @@
+DELIMITER $$
+
+CREATE PROCEDURE TransferFunds(
+    IN fromAccountID INT,
+    IN toAccountID INT,
+    IN amount DECIMAL(10, 2)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Transaction failed. Rolled back.';
+    END;
+
+    START TRANSACTION;
+
+    IF (SELECT Balance FROM Accounts WHERE AccountID = fromAccountID) < amount THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient funds in the source account.';
+    ELSE
+        UPDATE Accounts
+        SET Balance = Balance - amount
+        WHERE AccountID = fromAccountID;
+
+        UPDATE Accounts
+        SET Balance = Balance + amount
+        WHERE AccountID = toAccountID;
+
+        INSERT INTO Transactions (FromAccountID, ToAccountID, Amount)
+        VALUES (fromAccountID, toAccountID, amount);
+
+        COMMIT;
+    END IF;
+END $$
+
+DELIMITER ;

@@ -1,0 +1,23 @@
+SELECT
+    s.StudentName,
+    c.CourseName,
+    e.HighestGrade,
+    e.AverageGrade
+FROM
+    (SELECT
+         e.StudentID,
+         e.CourseID,
+         MAX(e.Grade) AS HighestGrade,
+         AVG(e.Grade) OVER (PARTITION BY e.StudentID) AS AverageGrade
+     FROM
+         Enrollments e
+     GROUP BY
+         e.StudentID, e.CourseID) e
+JOIN
+    Students s ON e.StudentID = s.StudentID
+JOIN
+    Courses c ON e.CourseID = c.CourseID
+WHERE
+    e.AverageGrade > 75
+ORDER BY
+    s.StudentName, c.CourseName;
